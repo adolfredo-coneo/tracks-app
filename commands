@@ -1,0 +1,12 @@
+npx expo-cli init tracks-app --yarn
+- cd tracks-app
+- yarn start # you can open iOS, Android, or web from here, or run them directly with the commands below.
+- yarn android
+- yarn ios
+- yarn web
+
+//react-navigation
+yarn add @react-navigation/native
+expo install react-native-screens react-native-safe-area-context
+yarn add @react-navigation/native-stack
+yarn add @react-navigation/bottom-tabs
