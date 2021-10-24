@@ -10,3 +10,13 @@ yarn add @react-navigation/native
 expo install react-native-screens react-native-safe-area-context
 yarn add @react-navigation/native-stack
 yarn add @react-navigation/bottom-tabs
+
+//react-native-elements
+yarn add react-native-elements
+
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/adolfredo-coneo/tracks-app.git
+git push -u origin main

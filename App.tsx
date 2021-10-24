@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator<ScreensStackParamList>();
 const Tab = createBottomTabNavigator();
 const StackTrack = createNativeStackNavigator();
 
-const isLoggedIn = true;
+const isLoggedIn = false;
 
 function TrackStackScreen() {
   return (
