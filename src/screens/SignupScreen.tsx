@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Text, Input, Button } from 'react-native-elements';
 
 import ScreensStackParamList from '../models/Screens';
 import Spacer from '../components/Spacer';
+import { Context as AuthContext } from '../context/AuthContext';
 
 type Props = NativeStackScreenProps<ScreensStackParamList, 'Signup'>;
 
 const SignupScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { state, signup } = useContext(AuthContext);
+
+  const handleSubmit = () => {
+    signup(email, password);
+  };
 
   return (
     <View style={styles.container}>
@@ -33,8 +39,14 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
         autoCorrect={false}
         secureTextEntry
       />
+      <Spacer />
+      {state.errorMessage ? (
+        <Text h4 style={styles.error}>
+          {state.errorMessage}
+        </Text>
+      ) : null}
       <Spacer>
-        <Button title="Sign Up" />
+        <Button title="Sign Up" onPress={handleSubmit} />
       </Spacer>
     </View>
   );
@@ -48,5 +60,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     marginBottom: 100,
+  },
+  error: {
+    color: 'red',
+    marginLeft: 15,
   },
 });

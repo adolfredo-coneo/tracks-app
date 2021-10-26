@@ -14,6 +14,12 @@ yarn add @react-navigation/bottom-tabs
 //react-native-elements
 yarn add react-native-elements
 
+//axios
+yarn add axios
+
+//react-native-async-storage
+yarn add @react-native-async-storage/async-storage
+
 git init
 git add .
 git commit -m "first commit"
