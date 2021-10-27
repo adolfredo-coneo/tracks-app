@@ -1,53 +1,29 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, Input, Button } from 'react-native-elements';
 
-import ScreensStackParamList from '../models/Screens';
-import Spacer from '../components/Spacer';
+import { ScreensStackParamList } from '../models/Screens';
 import { Context as AuthContext } from '../context/AuthContext';
+import AuthForm from '../components/AuthForm';
+import NavLink from '../components/NavLink';
 
 type Props = NativeStackScreenProps<ScreensStackParamList, 'Signup'>;
 
 const SignupScreen: React.FC<Props> = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const { state, signup } = useContext(AuthContext);
-
-  const handleSubmit = () => {
-    signup(email, password);
-  };
 
   return (
     <View style={styles.container}>
-      <Spacer>
-        <Text h2>Sign Up for Tracker</Text>
-      </Spacer>
-      <Input
-        label="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        autoCorrect={false}
+      <AuthForm
+        headerText="Sign Up for Tracker"
+        errorMessage={state.errorMessage}
+        submitButtonLabel="Sign Up"
+        onSubmit={signup}
       />
-      <Spacer />
-      <Input
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        autoCapitalize="none"
-        autoCorrect={false}
-        secureTextEntry
+      <NavLink
+        text="Already have an account? Sign in instead"
+        routeName="Signin"
       />
-      <Spacer />
-      {state.errorMessage ? (
-        <Text h4 style={styles.error}>
-          {state.errorMessage}
-        </Text>
-      ) : null}
-      <Spacer>
-        <Button title="Sign Up" onPress={handleSubmit} />
-      </Spacer>
     </View>
   );
 };
@@ -60,9 +36,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     marginBottom: 100,
-  },
-  error: {
-    color: 'red',
-    marginLeft: 15,
   },
 });

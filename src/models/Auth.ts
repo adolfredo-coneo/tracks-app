@@ -1,7 +1,6 @@
 type Auth = {
-  isSignedIn: boolean;
-  errorMessage: string;
   token: string | null;
+  errorMessage: string;
 };
 
 export default Auth;
