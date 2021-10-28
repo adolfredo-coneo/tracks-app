@@ -2,7 +2,7 @@ import React, { useReducer, Dispatch, Reducer } from 'react';
 
 export interface Action {
   type: string;
-  payload: any;
+  payload?: any;
 }
 
 type BoundActions<T> = {

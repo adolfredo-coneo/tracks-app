@@ -2,16 +2,22 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import ScreensStackParamList from '../models/Screens';
+import { TabStackParamList } from '../models/Screens';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-type Props = NativeStackScreenProps<ScreensStackParamList, 'Signup'>;
+type Props = NativeStackScreenProps<TabStackParamList, 'TrackList'>;
 
 const TrackListScreen: React.FC<Props> = ({ navigation }) => {
   return (
-    <View>
-      <Text style={styles.title}>Track List Screen</Text>
-      <Button title="Go to Details" onPress={() => navigation.navigate('TrackDetail')} />
-    </View>
+    <SafeAreaView>
+      <View>
+        <Text style={styles.title}>Track List Screen</Text>
+        <Button
+          title="Go to Details"
+          onPress={() => navigation.navigate('TrackDetail')}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 

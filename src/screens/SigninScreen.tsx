@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { ScreensStackParamList } from '../models/Screens';
 import { Context as AuthContext } from '../context/AuthContext';
@@ -9,8 +10,15 @@ import NavLink from '../components/NavLink';
 
 type Props = NativeStackScreenProps<ScreensStackParamList, 'Signin'>;
 
-const SigninScreen: React.FC<Props> = ({ navigation }) => {
-  const { state, signin } = useContext(AuthContext);
+const SigninScreen: React.FC<Props> = () => {
+  const { state, signin, clearErrorMessage } =
+    useContext(AuthContext);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => clearErrorMessage();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>

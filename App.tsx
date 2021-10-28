@@ -2,10 +2,12 @@ import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreensStackParamList } from './src/models/Screens';
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
+import LoadingScreen from './src/screens/LoadingScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
@@ -38,14 +40,15 @@ const RootNavigation = () => {
     <NavigationContainer>
       {state.token == null ? (
         <Stack.Navigator
-          initialRouteName="Signin"
+          initialRouteName="Loading"
           screenOptions={{ headerShown: false }}
         >
+          <Stack.Screen name="Loading" component={LoadingScreen} />
           <Stack.Screen name="Signin" component={SigninScreen} />
           <Stack.Screen name="Signup" component={SignupScreen} />
         </Stack.Navigator>
       ) : (
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
           <Tab.Screen name="TrackFlow" component={TrackStackScreen} />
           <Tab.Screen name="TrackCreate" component={TrackCreateScreen} />
           <Tab.Screen name="Account" component={AccountScreen} />
@@ -57,8 +60,10 @@ const RootNavigation = () => {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <RootNavigation />
-    </AuthProvider>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <RootNavigation />
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }
