@@ -16,6 +16,7 @@ import {
   Context as AuthContext,
   Provider as AuthProvider,
 } from './src/context/AuthContext';
+import { Provider as LocationProvider } from './src/context/LocationContext';
 
 const Stack = createNativeStackNavigator<ScreensStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -61,9 +62,11 @@ const RootNavigation = () => {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <AuthProvider>
-        <RootNavigation />
-      </AuthProvider>
+      <LocationProvider>
+        <AuthProvider>
+          <RootNavigation />
+        </AuthProvider>
+      </LocationProvider>
     </SafeAreaProvider>
   );
 }

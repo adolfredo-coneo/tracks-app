@@ -8,16 +8,16 @@ const Map = (props: Props) => {
   let points = [];
   for (let i = 0; i < 20; i++) {
     points.push({
-      latitude: 37.78825 + i * 0.001,
-      longitude: -122.4324 + i * 0.001,
+      latitude: 37.33233141 + i * 0.001,
+      longitude: -122.0312186 + i * 0.001,
     });
   }
   return (
     <MapView
       style={styles.map}
       initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 37.33233141,
+        longitude: -122.0312186,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}
