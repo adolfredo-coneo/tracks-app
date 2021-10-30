@@ -1,6 +1,8 @@
-type Locations = {
-  locations: any[];
-  currentLocation: string | null;
+import { LocationObject } from "expo-location";
+
+interface Locations {
+  locations: LocationObject[];
+  currentLocation: LocationObject | null;
   recording: boolean;
 };
 

@@ -1,32 +1,42 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import MapView, { Polyline } from 'react-native-maps';
+import React, { useContext } from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
+import MapView, { Circle } from 'react-native-maps';
 
-interface Props {}
+import { Context as LocationContext } from '../context/LocationContext';
 
-const Map = (props: Props) => {
-  let points = [];
-  for (let i = 0; i < 20; i++) {
-    points.push({
-      latitude: 37.33233141 + i * 0.001,
-      longitude: -122.0312186 + i * 0.001,
-    });
+const Map = () => {
+  const {
+    state: { currentLocation, locations },
+  } = useContext(LocationContext);
+
+  if (!currentLocation) {
+    return <ActivityIndicator size="large" style={styles.spinner} />;
   }
+
+  //"latitude": 10.3883441,
+  //"longitude": -75.4802007,
+
   return (
     <MapView
       style={styles.map}
       initialRegion={{
-        latitude: 37.33233141,
-        longitude: -122.0312186,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      }}
+      region={{
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
       }}
     >
-      <Polyline
-        coordinates={points}
-        lineDashPattern={[1]}
-        strokeColor="red"
-        strokeWidth={5}
+      <Circle
+        center={currentLocation.coords}
+        radius={40}
+        strokeColor="rgba(158, 158, 255, 1.0)"
+        fillColor="rgba(158, 158, 255, 0.3)"
       />
     </MapView>
   );
@@ -37,5 +47,8 @@ export default Map;
 const styles = StyleSheet.create({
   map: {
     height: 300,
+  },
+  spinner: {
+    marginTop: 200,
   },
 });

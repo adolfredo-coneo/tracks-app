@@ -1,4 +1,5 @@
 import { Dispatch } from 'react';
+import { LocationObject } from 'expo-location';
 
 import createDataContext, { Action } from './createDataContext';
 import Locations from '../models/Location';
@@ -22,7 +23,10 @@ const locationReducer = (state: Locations, action: Action) => {
 
 const startRecording = (dispatch: Dispatch<Action>) => {};
 const stopRecording = (dispatch: Dispatch<Action>) => {};
-const addLocation = (dispatch: Dispatch<Action>, state: Locations) => {};
+const addLocation = (dispatch: Dispatch<Action>) => (currentLocation: LocationObject) => {
+  console.log('Tracking1');
+  dispatch({ type: 'add_current_location', payload: currentLocation });
+};
 
 export const { Context, Provider } = createDataContext(
   locationReducer,

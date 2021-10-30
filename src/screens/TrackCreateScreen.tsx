@@ -1,45 +1,28 @@
 //import '../_mockLocation';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from 'react-native-elements';
-import {
-  requestForegroundPermissionsAsync,
-  watchPositionAsync,
-  Accuracy,
-} from 'expo-location';
+import { useFocusEffect } from '@react-navigation/native';
 
 import Map from '../components/Map';
+import { Context as LocationContext } from '../context/LocationContext';
+import useLocation from '../hooks/useLocation';
 
 interface Props {}
 
 const TrackCreateScreen = (props: Props) => {
-  const [err, setErr] = useState<unknown>(null);
+  const { addLocation } = useContext(LocationContext);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [err] = useLocation(isFocused, addLocation);
 
-  const startWatching = async () => {
-    try {
-      const { granted } = await requestForegroundPermissionsAsync();
-      if (!granted) {
-        throw new Error('Location permission not granted');
-      }
-      await watchPositionAsync(
-        {
-          accuracy: Accuracy.BestForNavigation,
-          timeInterval: 1000,
-          distanceInterval: 10,
-        },
-        (location) => {
-          console.log(location);
-        }
-      );
-    } catch (e) {
-      setErr(e);
-    }
-  };
+  useFocusEffect(
+    useCallback(() => {
+      setIsFocused(true)
 
-  useEffect(() => {
-    startWatching();
-  }, []);
+      return () => setIsFocused(false);
+    }, [])
+  );
 
   return (
     <SafeAreaView>
