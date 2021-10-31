@@ -8,17 +8,21 @@ import { useFocusEffect } from '@react-navigation/native';
 import Map from '../components/Map';
 import { Context as LocationContext } from '../context/LocationContext';
 import useLocation from '../hooks/useLocation';
+import TrackForm from '../components/TrackForm';
 
 interface Props {}
 
 const TrackCreateScreen = (props: Props) => {
-  const { addLocation } = useContext(LocationContext);
+  const { state: { recording }, addLocation } = useContext(LocationContext);
+  const callback = useCallback((location) => {
+    addLocation(location, recording);
+  }, [recording]);
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const [err] = useLocation(isFocused, addLocation);
+  const [err] = useLocation(isFocused || recording, callback);
 
   useFocusEffect(
     useCallback(() => {
-      setIsFocused(true)
+      setIsFocused(true);
 
       return () => setIsFocused(false);
     }, [])
@@ -32,6 +36,7 @@ const TrackCreateScreen = (props: Props) => {
         </Text>
         <Map />
         {err ? <Text>Please enable location services</Text> : null}
+        <TrackForm />
       </View>
     </SafeAreaView>
   );
