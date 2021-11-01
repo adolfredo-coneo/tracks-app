@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { FontAwesome } from '@expo/vector-icons';
 
 import { ScreensStackParamList } from './src/models/Screens';
 import SigninScreen from './src/screens/SigninScreen';
@@ -17,6 +18,7 @@ import {
   Provider as AuthProvider,
 } from './src/context/AuthContext';
 import { Provider as LocationProvider } from './src/context/LocationContext';
+import { Provider as TrackProvider } from './src/context/TrackContext';
 
 const Stack = createNativeStackNavigator<ScreensStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -24,12 +26,17 @@ const StackTrack = createNativeStackNavigator();
 
 const TrackStackScreen = () => {
   return (
-    <StackTrack.Navigator
-      initialRouteName="TrackList"
-      screenOptions={{ headerShown: false }}
-    >
-      <StackTrack.Screen name="TrackList" component={TrackListScreen} />
-      <StackTrack.Screen name="TrackDetail" component={TrackDetailScreen} />
+    <StackTrack.Navigator initialRouteName="TrackList">
+      <StackTrack.Screen
+        options={{ headerTitle: 'Tracks' }}
+        name="TrackList"
+        component={TrackListScreen}
+      />
+      <StackTrack.Screen
+        options={{ headerBackTitle: 'Track List', headerTitle: '' }}
+        name="TrackDetail"
+        component={TrackDetailScreen}
+      />
     </StackTrack.Navigator>
   );
 };
@@ -50,9 +57,29 @@ const RootNavigation = () => {
         </Stack.Navigator>
       ) : (
         <Tab.Navigator screenOptions={{ headerShown: false }}>
-          <Tab.Screen name="TrackFlow" component={TrackStackScreen} />
-          <Tab.Screen name="TrackCreate" component={TrackCreateScreen} />
-          <Tab.Screen name="Account" component={AccountScreen} />
+          <Tab.Screen
+            name="TrackFlow"
+            options={{
+              title: 'Track',
+              tabBarIcon: () => <FontAwesome name="map" size={20} />,
+            }}
+            component={TrackStackScreen}
+          />
+          <Tab.Screen
+            name="TrackCreate"
+            options={{
+              title: 'Add Track',
+              tabBarIcon: () => <FontAwesome name="plus" size={20} />,
+            }}
+            component={TrackCreateScreen}
+          />
+          <Tab.Screen
+            name="Account"
+            options={{
+              tabBarIcon: () => <FontAwesome name="gear" size={20} />,
+            }}
+            component={AccountScreen}
+          />
         </Tab.Navigator>
       )}
     </NavigationContainer>
@@ -63,9 +90,11 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <LocationProvider>
-        <AuthProvider>
-          <RootNavigation />
-        </AuthProvider>
+        <TrackProvider>
+          <AuthProvider>
+            <RootNavigation />
+          </AuthProvider>
+        </TrackProvider>
       </LocationProvider>
     </SafeAreaProvider>
   );

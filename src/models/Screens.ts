@@ -7,6 +7,6 @@ export type ScreensStackParamList = {
 export type TabStackParamList = {
   TrackList: undefined;
   TrackCreate: undefined;
-  TrackDetail: undefined;
+  TrackDetail: { id: string };
   Account: undefined;
 };
